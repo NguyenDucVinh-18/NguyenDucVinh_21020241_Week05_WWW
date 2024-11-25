@@ -7,4 +7,5 @@ import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.CandidateSkill;
 
 @Repository
 public interface CandidateSkillRepository extends JpaRepository<CandidateSkill, CandidateSkillId> {
+
 }

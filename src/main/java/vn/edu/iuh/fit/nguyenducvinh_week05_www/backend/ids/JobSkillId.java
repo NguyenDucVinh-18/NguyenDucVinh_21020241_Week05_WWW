@@ -31,4 +31,6 @@ public class JobSkillId implements Serializable {
 
     public JobSkillId() {
     }
+
+
 }

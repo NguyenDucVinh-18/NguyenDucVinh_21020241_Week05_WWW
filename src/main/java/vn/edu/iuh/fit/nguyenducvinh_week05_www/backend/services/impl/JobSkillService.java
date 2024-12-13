@@ -61,4 +61,8 @@ public class JobSkillService implements IServices<JobSkill, JobSkillId> {
     public List<JobSkill> getAllJobsBySkill(Long skillId) {
         return jsr.findById_SkillId(skillId);
     }
+
+    public JobSkill getAllJobsByJobAndSkill(Long jobId, Long skillId) {
+        return jsr.findById_Job_IdAndId_Skill_Id(jobId, skillId);
+    }
 }

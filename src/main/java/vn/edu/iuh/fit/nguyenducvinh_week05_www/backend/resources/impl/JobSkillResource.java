@@ -66,4 +66,13 @@ public class JobSkillResource implements IManagement<JobSkill, JobSkillId> {
                 jss.getAllJobsBySkill(skillId)
         ));
     }
+
+    @GetMapping("/jobs={jobId}/skills={skillId}")
+    public ResponseEntity<Response> getJobSkillByJobIdAndSkillId(@PathVariable("jobId") Long jobId, @PathVariable("skillId") Long skillId) {
+        return ResponseEntity.ok(new Response(
+                HttpStatus.OK.value(),
+                "Get job skill by job id and skill id",
+                jss.getAllJobsByJobAndSkill(jobId, skillId)
+        ));
+    }
 }

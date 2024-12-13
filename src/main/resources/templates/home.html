@@ -118,7 +118,7 @@
                     <td th:text="${jobSkill.id.skill.type}"></td>
                     <td th:text="${jobSkill.skillLevel}"></td>
                     <td>
-                        <a th:href="@{'/user-fe/skill/jobs/' + ${jobSkill.id.job.id}/${jobSkill.id.skill.id}/detail}">Detail</a>
+                        <a  th:href="@{'/user-fe/jobDetail/jobs=' + ${jobSkill.id.job.id} + '/skills=' + ${jobSkill.id.skill.id} + '/detail'}">Detail</a>
                     </td>
                 </tr>
                 </tbody>

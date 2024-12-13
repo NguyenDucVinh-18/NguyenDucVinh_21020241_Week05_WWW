@@ -33,4 +33,17 @@ public class JobSkillModel {
         }
     }
 
+    public JobSkill getAllJobSkillsByJobIdAndSkillId(Long jobId, Long skillId) {
+        ResponseEntity<String> responseEntity = rt.getForEntity(uri + "/jobs=" + jobId + "/skills=" + skillId, String.class);
+        String json = responseEntity.getBody();
+
+        try {
+            JsonNode root = mapper.readTree(json);
+            JsonNode dataNode = root.path("data");
+            return mapper.readValue(dataNode.toString(), new TypeReference<JobSkill>() {});
+        } catch (IOException e) {
+            throw new RuntimeException("Error parsing response", e);
+        }
+    }
+
 }

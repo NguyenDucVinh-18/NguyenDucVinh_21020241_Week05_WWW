@@ -1,13 +1,17 @@
 package vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "company", schema = "works")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@NoArgsConstructor
 public class Company {
     @Id
     @Column(name = "comp_id", nullable = false)
@@ -29,8 +33,18 @@ public class Company {
     @Column(name = "web_url")
     private String webUrl;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address", nullable = false)
     private Address address;
+
+    public Company(String about, String email, String compName, String phone, String webUrl, Address address) {
+        this.about = about;
+        this.email = email;
+        this.compName = compName;
+        this.phone = phone;
+        this.webUrl = webUrl;
+        this.address = address;
+    }
+
 
 }

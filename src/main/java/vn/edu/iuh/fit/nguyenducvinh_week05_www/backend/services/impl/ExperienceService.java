@@ -7,6 +7,8 @@ import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Experience;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.repositories.ExperienceRepository;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.services.IServices;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,14 @@ public class ExperienceService implements IServices<Experience, Long> {
     @Override
     public Experience add(Experience experience) {
         return er.save(experience);
+    }
+
+    @Override
+    public List<Experience> addMany(List<Experience> list) {
+        List<Experience> results = new ArrayList<>();
+        Iterator<Experience> output = er.saveAll(list).iterator();
+        output.forEachRemaining(results::add);
+        return results;
     }
 
     @Override

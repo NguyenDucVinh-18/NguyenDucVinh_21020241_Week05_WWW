@@ -1,10 +1,13 @@
 package vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.ids;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Candidate;
+import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Skill;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,25 +16,20 @@ import java.util.Objects;
 @Setter
 @Embeddable
 public class CandidateSkillId implements Serializable {
-    private static final long serialVersionUID = -5866832801713862646L;
-    @Column(name = "can_id", nullable = false)
-    private Long canId;
+    private static final long serialVersionUID = 7959505589146447260L;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "can_id", nullable = false)
+    private Candidate candidate;
 
-    @Column(name = "skill_id", nullable = false)
-    private Long skillId;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "skill_id", nullable = false)
+    private Skill skill;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        CandidateSkillId entity = (CandidateSkillId) o;
-        return Objects.equals(this.skillId, entity.skillId) &&
-                Objects.equals(this.canId, entity.canId);
+    public CandidateSkillId(Candidate candidate, Skill skill) {
+        this.candidate = candidate;
+        this.skill = skill;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(skillId, canId);
+    public CandidateSkillId() {
     }
-
 }

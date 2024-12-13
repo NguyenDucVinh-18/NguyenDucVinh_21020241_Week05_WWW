@@ -7,6 +7,8 @@ import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Candidate;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.repositories.CandidateRepository;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.services.IServices;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +21,14 @@ public class CandidateService implements IServices<Candidate, Long> {
     @Override
     public Candidate add(Candidate candidate) {
         return cr.save(candidate);
+    }
+
+    @Override
+    public List<Candidate> addMany(List<Candidate> list) {
+        List<Candidate> results = new ArrayList<>();
+        Iterator<Candidate> output = cr.saveAll(list).iterator();
+        output.forEachRemaining(results::add);
+        return results;
     }
 
     @Override
@@ -39,5 +49,9 @@ public class CandidateService implements IServices<Candidate, Long> {
     @Override
     public List<Candidate> getAll() {
         return cr.findAll();
+    }
+
+    public Candidate checkLogin(String email, String password){
+        return cr.findByEmailAndPassword(email,password).orElse(null);
     }
 }

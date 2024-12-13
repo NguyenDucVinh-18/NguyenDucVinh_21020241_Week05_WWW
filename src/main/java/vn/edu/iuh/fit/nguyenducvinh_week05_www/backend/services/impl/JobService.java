@@ -7,6 +7,8 @@ import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Job;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.repositories.JobRepository;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.services.IServices;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +21,14 @@ public class JobService implements IServices<Job, Long> {
     @Override
     public Job add(Job job) {
         return jr.save(job);
+    }
+
+    @Override
+    public List<Job> addMany(List<Job> list) {
+        List<Job> results = new ArrayList<>();
+        Iterator<Job> output = jr.saveAll(list).iterator();
+        output.forEachRemaining(results::add);
+        return results;
     }
 
     @Override

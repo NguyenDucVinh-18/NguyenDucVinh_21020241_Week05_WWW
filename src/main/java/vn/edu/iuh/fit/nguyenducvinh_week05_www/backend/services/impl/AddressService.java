@@ -7,6 +7,8 @@ import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Address;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.repositories.AddressRepository;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.services.IServices;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,14 @@ public class AddressService implements IServices<Address, Long> {
     @Override
     public Address add(Address address) {
         return ar.save(address);
+    }
+
+    @Override
+    public List<Address> addMany(List<Address> list) {
+        List<Address> results = new ArrayList<>();
+        Iterator<Address> output = ar.saveAll(list).iterator();
+        output.forEachRemaining(results::add);
+        return results;
     }
 
     @Override

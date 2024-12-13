@@ -6,12 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.View;
+import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.dto.CandidateAccountDto;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.exceptions.EntityIdNotFoundException;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Candidate;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Response;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.resources.IManagement;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.services.impl.CandidateService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,7 +42,30 @@ public class CandidateResource implements IManagement<Candidate, Long> {
             return ResponseEntity.ok(new Response(
                     HttpStatus.OK.value(),
                     "Insert candidate fail",
-                    candidate
+                    null
+            ));
+        }
+    }
+
+    @PostMapping("/list")
+    @Override
+    public ResponseEntity<Response> insertAll(@RequestBody List<Candidate> t) {
+        log.info("Call list candidate insert");
+        try{
+            List<Candidate> output = cs.addMany(t);
+            log.info("Insert list candidate success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Insert list candidate success",
+                    output
+            ));
+        } catch (Exception e) {
+            log.error("Insert list candidate fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Insert list candidate fail",
+                    null
             ));
         }
     }
@@ -94,5 +119,39 @@ public class CandidateResource implements IManagement<Candidate, Long> {
                 "Get all candidate success",
                 cs.getAll()
         ));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Response> checkLogin(@RequestBody CandidateAccountDto caDto){
+        log.info("Call checkLogin");
+        String email = caDto.getEmail();
+        String password = caDto.getPassword();
+        try{
+            Candidate candidate = cs.checkLogin(email, password);
+            if(candidate != null){
+                log.info("Login success");
+                return ResponseEntity.ok(new Response(
+                        HttpStatus.OK.value(),
+                        "Login success",
+                        candidate
+                ));
+            } else {
+                log.warn("Login fail for the email or password is incorrect!");
+                return ResponseEntity.ok(new Response(
+                        HttpStatus.NO_CONTENT.value(),
+                        "Login fail for the email or password is incorrect!",
+                        null
+                ));
+            }
+
+        } catch (Exception e) {
+            log.error("Login fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Login fail",
+                    null
+            ));
+        }
     }
 }

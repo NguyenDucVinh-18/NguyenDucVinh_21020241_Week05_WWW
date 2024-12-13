@@ -7,6 +7,8 @@ import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Company;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.repositories.CompanyRepository;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.services.IServices;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,14 @@ public class CompanyService implements IServices<Company, Long> {
     @Override
     public Company add(Company company) {
         return cr.save(company);
+    }
+
+    @Override
+    public List<Company> addMany(List<Company> list) {
+        List<Company> results = new ArrayList<>();
+        Iterator<Company> output = cr.saveAll(list).iterator();
+        output.forEachRemaining(results::add);
+        return results;
     }
 
     @Override

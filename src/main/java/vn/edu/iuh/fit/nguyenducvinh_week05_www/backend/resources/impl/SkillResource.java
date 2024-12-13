@@ -11,6 +11,7 @@ import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Skill;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.resources.IManagement;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.services.impl.SkillService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -39,7 +40,30 @@ public class SkillResource implements IManagement<Skill, Long> {
             return ResponseEntity.ok(new Response(
                     HttpStatus.OK.value(),
                     "Insert skill fail",
-                    skill
+                    null
+            ));
+        }
+    }
+
+    @PostMapping("/list")
+    @Override
+    public ResponseEntity<Response> insertAll(@RequestBody  List<Skill> t) {
+        log.info("Call list skill insert");
+        try{
+            List<Skill> output = ss.addMany(t);
+            log.info("Insert list skill success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Insert list skill success",
+                    output
+            ));
+        } catch (Exception e) {
+            log.error("Insert list skill fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Insert list skill fail",
+                    null
             ));
         }
     }
@@ -94,4 +118,6 @@ public class SkillResource implements IManagement<Skill, Long> {
            ss.getAll()
         ));
     }
+
+
 }

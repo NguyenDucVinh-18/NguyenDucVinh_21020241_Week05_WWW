@@ -6,4 +6,5 @@ import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Company;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
+
 }

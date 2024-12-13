@@ -7,6 +7,8 @@ import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Skill;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.repositories.SkillRepository;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.services.IServices;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +21,14 @@ public class SkillService implements IServices<Skill, Long> {
     @Override
     public Skill add(Skill skill) {
         return sr.save(skill);
+    }
+
+    @Override
+    public List<Skill> addMany(List<Skill> list) {
+        List<Skill> results = new ArrayList<>();
+        Iterator<Skill> output = sr.saveAll(list).iterator();
+        output.forEachRemaining(results::add);
+        return results;
     }
 
     @Override

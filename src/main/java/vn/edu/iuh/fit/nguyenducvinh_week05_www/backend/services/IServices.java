@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface IServices<T, P> {
     T add(T t);
+    List<T> addMany(List<T> list);
     T update(T t);
     void delete(P p) throws EntityIdNotFoundException;
     Optional<T> getById(P p) throws EntityIdNotFoundException;

@@ -3,9 +3,11 @@ package vn.edu.iuh.fit.nguyenducvinh_week05_www.frontend.models;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Company;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.JobSkill;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Response;
 
@@ -18,7 +20,7 @@ public class JobSkillModel {
 
     private final RestTemplate rt = new RestTemplate();
     private final String uri = "http://localhost:8080/api/v1/job-skill";
-    private final ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     public List<JobSkill> getAllJobsBySkill(Long skillId) {
         ResponseEntity<String> responseEntity = rt.getForEntity(uri + "/jobs/" + skillId, String.class);
@@ -62,8 +64,7 @@ public class JobSkillModel {
     }
 
     public JobSkill addJobSkill(JobSkill jobSkill) {
-        ResponseEntity<Response> responseEntity = rt.postForEntity(URI.create(uri), jobSkill, Response.class);
-        Response response = responseEntity.getBody();
+        Response response = rt.postForObject(URI.create(uri), jobSkill, Response.class);
         return mapper.convertValue(response.getData(), JobSkill.class);
     }
 

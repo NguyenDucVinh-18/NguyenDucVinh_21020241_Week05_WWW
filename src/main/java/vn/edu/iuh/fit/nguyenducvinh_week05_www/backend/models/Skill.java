@@ -33,4 +33,36 @@ public class Skill {
         this.skillName = skillName;
         this.type = type;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getSkillDescription() {
+        return skillDescription;
+    }
+
+    public void setSkillDescription(String skillDescription) {
+        this.skillDescription = skillDescription;
+    }
+
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
+    }
+
+    public SkillType getType() {
+        return type;
+    }
+
+    public void setType(SkillType type) {
+        this.type = type;
+    }
 }

@@ -11,6 +11,7 @@ import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.ids.CandidateSkillId;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.ids.JobSkillId;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.*;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.repositories.*;
+import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.services.impl.JobSkillService;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -37,8 +38,8 @@ public class NguyenDucVinhWeek05WwwApplication implements CommandLineRunner {
     @Autowired
     private JobRepository jr;
 
-//    @Autowired
-//    private JobSkillRepository jkr;
+    @Autowired
+    private JobSkillRepository jkr;
 
     @Autowired
     private CandidateSkillRepository csk;
@@ -190,6 +191,12 @@ public class NguyenDucVinhWeek05WwwApplication implements CommandLineRunner {
 //                System.out.println("Không tìm thấy Job hoặc Skill với ID: jobId=" + jobId + ", skillId=" + skillId);
 //            }
 //        }
+
+        JobSkillService jss = new JobSkillService();
+
+        JobSkillId jobSkillId = new JobSkillId(jr.findById((long) 107).get(), rs.findById((long) 57).get());
+        JobSkill jobSkill = new JobSkill(jobSkillId, "moreInfos", SkillLevel.BEGINER);
+        jss.add(jobSkill);
 
 //                for (int i = 0; i < 100; i++) { // Tạo 100 CandidateSkill ngẫu nhiên
 //            long candidateId = random.nextInt(100) + 1; // Random jobId từ 1 đến 95

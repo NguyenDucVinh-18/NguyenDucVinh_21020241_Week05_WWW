@@ -32,5 +32,19 @@ public class JobSkillId implements Serializable {
     public JobSkillId() {
     }
 
+    public Job getJob() {
+        return job;
+    }
 
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    public Skill getSkill() {
+        return skill;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
 }

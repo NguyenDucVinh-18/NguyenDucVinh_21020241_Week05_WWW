@@ -26,6 +26,7 @@ public class JobSkillResource implements IManagement<JobSkill, JobSkillId> {
     @Override
     public ResponseEntity<Response> insert(@RequestBody JobSkill jobSkill) {
         log.info("Call JobSkill insert");
+        log.info("Received JobSkill: {}", jobSkill.getId().getJob().getJobName()+ " " + jobSkill.getId().getSkill().getSkillName());
         try{
             JobSkill output = jss.add(jobSkill);
             log.info("Insert JobSkill success");

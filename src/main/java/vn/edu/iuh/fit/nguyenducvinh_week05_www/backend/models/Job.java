@@ -27,4 +27,9 @@ public class Job {
     @JoinColumn(name = "company")
     private Company company;
 
+    public Job(String jobDesc, String jobName, Company company) {
+        this.jobDesc = jobDesc;
+        this.jobName = jobName;
+        this.company = company;
+    }
 }

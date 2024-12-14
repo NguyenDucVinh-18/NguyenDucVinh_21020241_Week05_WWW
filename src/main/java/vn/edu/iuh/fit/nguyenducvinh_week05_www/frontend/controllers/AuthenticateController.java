@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Address;
-import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Candidate;
-import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.CandidateSkill;
-import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.JobSkill;
+import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.*;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.frontend.models.*;
 
 import java.time.LocalDate;
@@ -25,8 +22,12 @@ public class AuthenticateController {
     @Autowired
     private AuthenticateModel am;
 
+
     @Autowired
     private CandidateModel cm;
+
+    @Autowired
+    private CompanyModel companyModel;
 
     @Autowired
     private AddressModel addm;
@@ -38,40 +39,61 @@ public class AuthenticateController {
     private JobSkillModel jsm;
 
     @Autowired
-    CandidateSkillModel ckm;
+    private CandidateSkillModel ckm;
 
-    @PostMapping("/login")
+    @Autowired
+    private JobModel jobModel;
+
+    @PostMapping("/loginCandidate")
     public ModelAndView checkLogin(
             @RequestParam("inputEmail") String email,
             @RequestParam("inputPassword") String password,
             HttpServletRequest request
     ) {
-        ModelAndView mv = new ModelAndView("home");
+        ModelAndView mv = new ModelAndView("homeCandidate");
         Candidate target = am.checkLogin(email, password);
         request.getServletContext().setAttribute("account_login", target);
-//        request.getServletContext().setAttribute("role", target.getRole().toString());
         Candidate candidate = am.checkLogin(email, password);
         request.getServletContext().setAttribute("skills", skillModel.getAllSkills());
-//        mv.addObject("role", target.getRole().toString());
         mv.addObject("candidate", candidate);
-//        mv.addObject("jobSuggest",)
         List<CandidateSkill> candidateSkillList = ckm.getAllSkillByCan(candidate.getId());
         mv.addObject("candidateSkillList", candidateSkillList);
         List<JobSkill> jobSkills = new ArrayList<>();
         for (CandidateSkill candidateSkill : candidateSkillList) {
-//            List<JobSkill> jobSkillList = jsm.getAllJobsBySkill(Long.parseLong(String.valueOf(candidateSkill.getId().getSkill().getId())));
             jobSkills.addAll(jsm.getAllJobsBySkill(Long.parseLong(String.valueOf(candidateSkill.getId().getSkill().getId()))));
-
         }
-
         mv.addObject("jobSuggestions", jobSkills);
         mv.addObject("account_login", target);
         mv.addObject("skills", skillModel.getAllSkills());
         return mv;
     }
 
+    @PostMapping("/loginCompany")
+    public ModelAndView checkLoginCompany(
+            @RequestParam("inputEmail") String email,
+            @RequestParam("inputPassword") String password,
+            HttpServletRequest request
+    ) {
+        ModelAndView mv = new ModelAndView("homeCompany");
+        Company target = am.checkLoginCompany(email, password);
+        request.getServletContext().setAttribute("account_login", target);
 
-    @PostMapping("/create-account")
+        Company company = am.checkLoginCompany(email, password);
+        mv.addObject("company", company);
+        List<Job> jobs = jobModel.findListJobByCompanyId(company.getId());
+//        mv.addObject("jobs", jobs);
+        List<JobSkill> jobSkills = new ArrayList<>();
+        for (Job job : jobs) {
+            jobSkills.addAll(jsm.getAllJobSkillByJob(job.getId()));
+        }
+        mv.addObject("jobSkills", jobSkills);
+        mv.addObject("account_login", target);
+        mv.addObject("skills", skillModel.getAllSkills());
+        return mv;
+    }
+
+
+    @PostMapping("/create-account-candidate")
     public ModelAndView createAccount(
             @RequestParam("inputFullName") String fullName,
             @RequestParam("inputPhone") String phone,
@@ -104,11 +126,33 @@ public class AuthenticateController {
         boolean result = am.createAccount(candidate);
         if(result) {
             mv.addObject("status", "Register success! Please login to continue");
-            mv.setViewName("home");
+            mv.setViewName("index");
         } else {
             mv.addObject("status", "Register failed! Please contact to administrator");
-            mv.setViewName("createAccount");
+            mv.setViewName("createAccountCandidate");
         }
+        return mv;
+    }
+
+    @PostMapping("/create-account-company")
+    public ModelAndView createAccountCompany(
+            @RequestParam("compName") String companyName,
+            @RequestParam("email") String email,
+            @RequestParam("phone") String phone,
+            @RequestParam("webUrl") String webUrl,
+            @RequestParam("about") String about,
+            @RequestParam("password") String password,
+            @RequestParam("street") String street,
+            @RequestParam("city") String city,
+            @RequestParam("number") String number,
+            @RequestParam("country") Short country,
+            @RequestParam("zipcode") String zipcode,
+            ModelAndView mv
+    ){
+        mv.setViewName("index");
+        Address address = addm.addAddress(new Address(street, city, country, number, zipcode));
+        Company company = new Company(about, email, password, companyName, phone, webUrl, address);
+        companyModel.addCompany(company);
         return mv;
     }
 }

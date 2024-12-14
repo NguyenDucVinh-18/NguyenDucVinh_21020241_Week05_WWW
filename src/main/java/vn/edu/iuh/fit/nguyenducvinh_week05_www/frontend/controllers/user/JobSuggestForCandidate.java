@@ -11,7 +11,6 @@ import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.enums.CandidateRole;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Candidate;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.CandidateSkill;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.JobSkill;
-import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Skill;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.frontend.models.CandidateSkillModel;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.frontend.models.JobSkillModel;
 
@@ -40,7 +39,7 @@ public class JobSuggestForCandidate {
         }
 
         mv.addObject("jobSuggestions", jobSkills);
-        mv.setViewName("home");
+        mv.setViewName("homeCandidate");
         return mv;
     }
 

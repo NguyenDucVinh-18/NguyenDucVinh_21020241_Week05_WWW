@@ -15,6 +15,11 @@ public class CompanyModel {
     private RestTemplate rt = new RestTemplate();
     private final String  uri = "http://localhost:8080/api/v1/company";
 
+    public Company getCompanyById(Long id){
+        Response response = rt.getForObject(URI.create(uri + "/" + id), Response.class);
+        return mapper.convertValue(response.getData(), Company.class);
+    }
+
     public Company addCompany(Company company){
         Response response = rt.postForObject(URI.create(uri), company, Response.class);
         return mapper.convertValue(response.getData(), Company.class);

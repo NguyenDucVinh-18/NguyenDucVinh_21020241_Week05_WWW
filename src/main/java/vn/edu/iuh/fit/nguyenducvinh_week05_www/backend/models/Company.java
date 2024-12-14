@@ -24,6 +24,9 @@ public class Company {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Column(name = "comp_name", nullable = false)
     private String compName;
 
@@ -37,14 +40,13 @@ public class Company {
     @JoinColumn(name = "address", nullable = false)
     private Address address;
 
-    public Company(String about, String email, String compName, String phone, String webUrl, Address address) {
+    public Company(String about, String email, String password, String compName, String phone, String webUrl, Address address) {
         this.about = about;
         this.email = email;
+        this.password = password;
         this.compName = compName;
         this.phone = phone;
         this.webUrl = webUrl;
         this.address = address;
     }
-
-
 }

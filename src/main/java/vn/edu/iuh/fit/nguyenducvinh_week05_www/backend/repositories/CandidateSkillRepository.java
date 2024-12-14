@@ -11,4 +11,6 @@ import java.util.Optional;
 @Repository
 public interface CandidateSkillRepository extends JpaRepository<CandidateSkill, CandidateSkillId> {
     List<CandidateSkill> findById_Candidate_Id(Long id);
+    List<CandidateSkill> findById_Skill_Id(Long id);
+
 }

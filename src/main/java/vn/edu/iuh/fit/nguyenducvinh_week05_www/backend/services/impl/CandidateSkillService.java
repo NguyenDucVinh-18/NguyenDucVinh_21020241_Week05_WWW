@@ -56,4 +56,8 @@ public class CandidateSkillService implements IServices<CandidateSkill, Candidat
     public List<CandidateSkill> getAllSkillByCanId(Long canId) {
         return csr.findById_Candidate_Id(canId);
     }
+
+    public List<CandidateSkill> getAllCanBySkillId(Long skillId) {
+        return csr.findById_Skill_Id(skillId);
+    }
 }

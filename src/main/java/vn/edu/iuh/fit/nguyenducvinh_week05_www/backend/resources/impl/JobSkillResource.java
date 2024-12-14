@@ -25,7 +25,25 @@ public class JobSkillResource implements IManagement<JobSkill, JobSkillId> {
     @PostMapping
     @Override
     public ResponseEntity<Response> insert(@RequestBody JobSkill jobSkill) {
-        return null;
+        log.info("Call JobSkill insert");
+        try{
+            JobSkill output = jss.add(jobSkill);
+            log.info("Insert JobSkill success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Insert JobSkill success",
+                    output
+            ));
+        } catch (Exception e) {
+            log.error("Insert JobSkill fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Insert JobSkill fail",
+                    null
+            ));
+        }
+
     }
 
     @PostMapping("/list")
@@ -64,6 +82,15 @@ public class JobSkillResource implements IManagement<JobSkill, JobSkillId> {
                 HttpStatus.OK.value(),
                 "Get all jobs by skill id",
                 jss.getAllJobsBySkill(skillId)
+        ));
+    }
+
+    @GetMapping("/jobSkill/{jobId}")
+    public ResponseEntity<Response> getAllJobSkillByJob(@PathVariable("jobId") Long jobId) {
+        return ResponseEntity.ok(new Response(
+                HttpStatus.OK.value(),
+                "Get all jobs by job id",
+                jss.getAllJobSkillByJob(jobId)
         ));
     }
 

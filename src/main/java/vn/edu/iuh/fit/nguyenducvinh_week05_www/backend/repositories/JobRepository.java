@@ -5,8 +5,11 @@ import org.springframework.stereotype.Repository;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Company;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Job;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
+    List<Job> findByCompany_Id(Long id);
+
 }

@@ -50,4 +50,8 @@ public class JobService implements IServices<Job, Long> {
     public List<Job> getAll() {
         return jr.findAll();
     }
+
+    public List<Job> getByCompanyId(Long id){
+        return jr.findByCompany_Id(id);
+    }
 }

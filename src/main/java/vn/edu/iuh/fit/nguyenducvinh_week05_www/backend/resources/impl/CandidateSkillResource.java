@@ -64,4 +64,13 @@ public class CandidateSkillResource implements IManagement<CandidateSkill, Candi
                 css.getAllSkillByCanId(canId)
         ));
     }
+
+    @GetMapping("/candidates/{skillId}")
+    public ResponseEntity<Response> getAllCanBySkillId(@PathVariable("skillId") Long skillId) {
+        return ResponseEntity.ok(new Response(
+                HttpStatus.OK.value(),
+                "Get all candidate by skill id",
+                css.getAllCanBySkillId(skillId)
+        ));
+    }
 }

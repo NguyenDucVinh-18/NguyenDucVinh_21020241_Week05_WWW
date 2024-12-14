@@ -52,4 +52,8 @@ public class CompanyService implements IServices<Company, Long> {
         return cr.findAll();
     }
 
+    public Company checkLogin(String email, String password){
+        return cr.findByEmailAndPassword(email,password).orElse(null);
+    }
+
 }

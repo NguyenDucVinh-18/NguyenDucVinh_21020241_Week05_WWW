@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.dto.CandidateAccountDto;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Candidate;
+import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Company;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Response;
 
 import java.net.URI;
@@ -16,16 +17,24 @@ public class AuthenticateModel {
 
     private ObjectMapper  mapper = new ObjectMapper().registerModule(new JavaTimeModule());
     private RestTemplate rt = new RestTemplate();
-    private final String  uri = "http://localhost:8080/api/v1/candidate";
+    private final String  uri = "http://localhost:8080/api/v1/";
 
     public Candidate checkLogin(String email, String password){
 
         Candidate candidate = null;
 
         CandidateAccountDto dto = new CandidateAccountDto(email, password);
-        Response response = rt.postForObject(URI.create(uri + "/login"),dto, Response.class);
+        Response response = rt.postForObject(URI.create(uri + "candidate/login"),dto, Response.class);
         candidate = mapper.convertValue(response.getData(), new TypeReference<>() {});
         return candidate;
+    }
+
+    public Company checkLoginCompany(String email, String password){
+        Company company = null;
+        CandidateAccountDto dto = new CandidateAccountDto(email, password);
+        Response response = rt.postForObject(URI.create(uri + "company/login"), dto, Response.class);
+        company = mapper.convertValue(response.getData(), new TypeReference<>() {});
+        return company;
     }
 
     public boolean createAccount(Candidate candidate){

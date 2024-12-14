@@ -45,4 +45,17 @@ public class CandidateSkillModel {
             throw new RuntimeException("Error parsing response", e);
         }
     }
+
+    public List<CandidateSkill> getAllCandidateSkillBySkill(Long skillId) {
+        ResponseEntity<String> responseEntity = rt.getForEntity(uri + "/candidates/" + skillId, String.class);
+        String json = responseEntity.getBody();
+
+        try {
+            JsonNode root = mapper.readTree(json);
+            JsonNode dataNode = root.path("data");
+            return mapper.readValue(dataNode.toString(), new TypeReference<List<CandidateSkill>>() {});
+        } catch (IOException e) {
+            throw new RuntimeException("Error parsing response", e);
+        }
+    }
 }

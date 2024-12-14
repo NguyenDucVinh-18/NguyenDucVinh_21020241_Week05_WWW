@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface JobSkillRepository extends JpaRepository<JobSkill, JobSkillId> {
     List<JobSkill> findById_SkillId(Long skillId);
 
+    List<JobSkill> findById_Job_Id(Long id);
+
     JobSkill findById_Job_IdAndId_Skill_Id(Long id, Long id1);
 
 

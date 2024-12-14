@@ -118,4 +118,13 @@ public class JobResource implements IManagement<Job, Long> {
                 js.getAll()
         ));
     }
+
+    @GetMapping("/ListJobs/{id}")
+    public ResponseEntity<Response> getByCompanyId(@PathVariable("id") Long id){
+        return ResponseEntity.ok(new Response(
+                HttpStatus.OK.value(),
+                "Get job by company id " + id + " success",
+                js.getByCompanyId(id)
+        ));
+    }
 }

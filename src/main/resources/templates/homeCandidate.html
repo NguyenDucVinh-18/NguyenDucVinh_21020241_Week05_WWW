@@ -59,7 +59,7 @@
                     </ul>
                 </dd>
             </dl>
-            <a href="/home-fe/profile/edit" class="btn btn-outline-primary">Chỉnh sửa hồ sơ</a>
+            <a class="btn btn-outline-primary" th:href="@{'/user-fe/profile/candidateId=' + ${candidate.id}}">Chỉnh sửa hồ sơ</a>
         </div>
     </div>
 
@@ -73,6 +73,7 @@
                 <th>Job Name</th>
                 <th>Skill Type</th>
                 <th>Skill Level</th>
+                <th>Go to detail</th>
             </tr>
             </thead>
             <tbody th:each="jobSkill : ${jobSuggestions}">
@@ -81,6 +82,9 @@
                 <td th:text="${jobSkill.id.job.jobName}"></td>
                 <td th:text="${jobSkill.id.skill.type}"></td>
                 <td th:text="${jobSkill.skillLevel}"></td>
+                <td>
+                    <a class="btn btn-outline-primary"  th:href="@{'/user-fe/jobDetail/jobs=' + ${jobSkill.id.job.id} + '/skills=' + ${jobSkill.id.skill.id} + '/detail'}">Detail</a>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -118,7 +122,7 @@
                     <td th:text="${jobSkill.id.skill.type}"></td>
                     <td th:text="${jobSkill.skillLevel}"></td>
                     <td>
-                        <a  th:href="@{'/user-fe/jobDetail/jobs=' + ${jobSkill.id.job.id} + '/skills=' + ${jobSkill.id.skill.id} + '/detail'}">Detail</a>
+                        <a class="btn btn-outline-primary"  th:href="@{'/user-fe/jobDetail/jobs=' + ${jobSkill.id.job.id} + '/skills=' + ${jobSkill.id.skill.id} + '/detail'}">Detail</a>
                     </td>
                 </tr>
                 </tbody>

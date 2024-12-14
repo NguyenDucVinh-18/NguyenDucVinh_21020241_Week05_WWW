@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.dto.CompanyAccountDto;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.exceptions.EntityIdNotFoundException;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Company;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Response;
@@ -117,5 +118,38 @@ public class CompanyResource implements IManagement<Company, Long> {
                 "Get all company success",
                 cs.getAll()
         ));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Response> checkLogin(@RequestBody CompanyAccountDto caDto){
+        log.info("Call company login");
+        String email = caDto.getEmail();
+        String password = caDto.getPassword();
+        try{
+            Company output = cs.checkLogin(email,password);
+            if(output != null){
+                log.info("Login company success");
+                return ResponseEntity.ok(new Response(
+                        HttpStatus.OK.value(),
+                        "Login company success",
+                        output
+                ));
+            } else {
+                log.warn("Login company fail");
+                return ResponseEntity.ok(new Response(
+                        HttpStatus.NOT_FOUND.value(),
+                        "Login company fail",
+                        null
+                ));
+            }
+        } catch (Exception e) {
+            log.error("Login company fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Login company fail",
+                    null
+            ));
+        }
     }
 }

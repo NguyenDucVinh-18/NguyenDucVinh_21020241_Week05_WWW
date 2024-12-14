@@ -33,6 +33,21 @@ public class JobSkillModel {
         }
     }
 
+    public List<JobSkill> getAllJobSkillByJob(Long jobId) {
+        ResponseEntity<String> responseEntity = rt.getForEntity(uri + "/jobSkill/" + jobId, String.class);
+        String json = responseEntity.getBody();
+
+        try {
+            JsonNode root = mapper.readTree(json);
+            JsonNode dataNode = root.path("data");
+            return mapper.readValue(dataNode.toString(), new TypeReference<List<JobSkill>>() {});
+        } catch (IOException e) {
+            throw new RuntimeException("Error parsing response", e);
+        }
+    }
+
+
+
     public JobSkill getAllJobSkillsByJobIdAndSkillId(Long jobId, Long skillId) {
         ResponseEntity<String> responseEntity = rt.getForEntity(uri + "/jobs=" + jobId + "/skills=" + skillId, String.class);
         String json = responseEntity.getBody();
@@ -44,6 +59,12 @@ public class JobSkillModel {
         } catch (IOException e) {
             throw new RuntimeException("Error parsing response", e);
         }
+    }
+
+    public JobSkill addJobSkill(JobSkill jobSkill) {
+        ResponseEntity<Response> responseEntity = rt.postForEntity(URI.create(uri), jobSkill, Response.class);
+        Response response = responseEntity.getBody();
+        return mapper.convertValue(response.getData(), JobSkill.class);
     }
 
 }

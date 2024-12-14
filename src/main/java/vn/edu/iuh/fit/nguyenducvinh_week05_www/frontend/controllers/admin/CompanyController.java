@@ -33,8 +33,8 @@ public class CompanyController {
     ){
         mv.setViewName("redirect:/admin-fe/company-management");
         Address address = am.getAddressById(addressId);
-        Company company = new Company(about, email, companyName, phone, webUrl, address);
-        cm.addCompany(company);
+//        Company company = new Company(about, email, companyName, phone, webUrl, address);
+//        cm.addCompany(company);
         return mv;
     }
 }

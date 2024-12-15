@@ -23,6 +23,7 @@ public class CompanyResource implements IManagement<Company, Long> {
     @Autowired
     private CompanyService cs;
 
+
     @PostMapping
     @Override
     public ResponseEntity<Response> insert(@RequestBody Company company) {

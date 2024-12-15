@@ -26,4 +26,9 @@ public class SkillModel {
         Response response = rt.getForObject(URI.create(uri), Response.class);
         return mapper.convertValue(response.getData(), new TypeReference<List<Skill>>() {});
     }
+
+    public Skill getSkillById(Long id) {
+        Response response = rt.getForObject(uri + "/" + id, Response.class);
+        return mapper.convertValue(response.getData(), Skill.class);
+    }
 }

@@ -192,11 +192,11 @@ public class NguyenDucVinhWeek05WwwApplication implements CommandLineRunner {
 //            }
 //        }
 
-        JobSkillService jss = new JobSkillService();
-
-        JobSkillId jobSkillId = new JobSkillId(jr.findById((long) 107).get(), rs.findById((long) 57).get());
-        JobSkill jobSkill = new JobSkill(jobSkillId, "moreInfos", SkillLevel.BEGINER);
-        jss.add(jobSkill);
+//        JobSkillService jss = new JobSkillService();
+//
+//        JobSkillId jobSkillId = new JobSkillId(jr.findById((long) 107).get(), rs.findById((long) 57).get());
+//        JobSkill jobSkill = new JobSkill(jobSkillId, "moreInfos", SkillLevel.BEGINER);
+//        jss.add(jobSkill);
 
 //                for (int i = 0; i < 100; i++) { // Tạo 100 CandidateSkill ngẫu nhiên
 //            long candidateId = random.nextInt(100) + 1; // Random jobId từ 1 đến 95

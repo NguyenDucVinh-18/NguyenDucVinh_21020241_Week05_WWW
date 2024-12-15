@@ -28,7 +28,12 @@ public class CandidateSkillResource implements IManagement<CandidateSkill, Candi
 
     @Override
     public ResponseEntity<Response> insert(CandidateSkill candidateSkill) {
-        return null;
+        CandidateSkill savedCandidateSkill = css.add(candidateSkill);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Response(
+                HttpStatus.CREATED.value(),
+                "CandidateSkill created successfully",
+                savedCandidateSkill
+        ));
     }
 
     @Override

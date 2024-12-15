@@ -5,6 +5,8 @@ import lombok.*;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.enums.SkillLevel;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.ids.JobSkillId;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @Entity
@@ -50,5 +52,18 @@ public class JobSkill {
 
     public void setSkillLevel(@NonNull SkillLevel skillLevel) {
         this.skillLevel = skillLevel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JobSkill jobSkill = (JobSkill) o;
+        return Objects.equals(id, jobSkill.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

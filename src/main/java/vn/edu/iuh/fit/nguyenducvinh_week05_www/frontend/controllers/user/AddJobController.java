@@ -50,17 +50,21 @@ public class AddJobController {
         mv.addObject("company", company);
         Job j = new Job(jobName, jobDesc, company);
         System.out.println(j.getJobName());
-        jm.addJob(j);
+
 
         Skill skill = new Skill(skillName, skillDesc, SkillType.valueOf(skillType));
         System.out.println(skill.getSkillName());
-        sm.addSkill(skill);
+
 
         JobSkillId jobSkillId = new JobSkillId(j, skill);
         System.out.println(jobSkillId.getJob().getJobName() + " " + jobSkillId.getSkill().getSkillName());
         JobSkill jobSkill = new JobSkill(jobSkillId, "more inform", SkillLevel.valueOf(skillLevel));
-        System.out.println(jobSkill.getSkillLevel());
+
+        jm.addJob(j);
+        sm.addSkill(skill);
+        System.out.println(j.getId());
         jsm.addJobSkill(jobSkill);
+
 
         mv.addObject("company", company);
         List<Job> jobs = jm.findListJobByCompanyId(company.getId());

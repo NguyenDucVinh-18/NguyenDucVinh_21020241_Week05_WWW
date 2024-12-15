@@ -50,23 +50,32 @@ public class AuthenticateController {
             @RequestParam("inputPassword") String password,
             HttpServletRequest request
     ) {
-        ModelAndView mv = new ModelAndView("homeCandidate");
+        ModelAndView mv;
         Candidate target = am.checkLogin(email, password);
-        request.getServletContext().setAttribute("account_login", target);
-        Candidate candidate = am.checkLogin(email, password);
-        request.getServletContext().setAttribute("skills", skillModel.getAllSkills());
-        mv.addObject("candidate", candidate);
-        List<CandidateSkill> candidateSkillList = ckm.getAllSkillByCan(candidate.getId());
-        mv.addObject("candidateSkillList", candidateSkillList);
-        List<JobSkill> jobSkills = new ArrayList<>();
-        for (CandidateSkill candidateSkill : candidateSkillList) {
-            jobSkills.addAll(jsm.getAllJobsBySkill(Long.parseLong(String.valueOf(candidateSkill.getId().getSkill().getId()))));
+        if (target == null) {
+            // Nếu đăng nhập thất bại
+            mv = new ModelAndView("loginPage"); // Redirect back to the login page
+            mv.addObject("errorMessage", "Invalid email or password. Please try again.");
+        } else {
+            // Nếu đăng nhập thành công
+            request.getServletContext().setAttribute("account_login", target);
+            Candidate candidate = am.checkLogin(email, password);
+            request.getServletContext().setAttribute("skills", skillModel.getAllSkills());
+            mv = new ModelAndView("homeCandidate");
+            mv.addObject("candidate", candidate);
+            List<CandidateSkill> candidateSkillList = ckm.getAllSkillByCan(candidate.getId());
+            mv.addObject("candidateSkillList", candidateSkillList);
+            List<JobSkill> jobSkills = new ArrayList<>();
+            for (CandidateSkill candidateSkill : candidateSkillList) {
+                jobSkills.addAll(jsm.getAllJobsBySkill(Long.parseLong(String.valueOf(candidateSkill.getId().getSkill().getId()))));
+            }
+            mv.addObject("jobSuggestions", jobSkills);
+            mv.addObject("account_login", target);
+            mv.addObject("skills", skillModel.getAllSkills());
         }
-        mv.addObject("jobSuggestions", jobSkills);
-        mv.addObject("account_login", target);
-        mv.addObject("skills", skillModel.getAllSkills());
         return mv;
     }
+
 
     @PostMapping("/loginCompany")
     public ModelAndView checkLoginCompany(

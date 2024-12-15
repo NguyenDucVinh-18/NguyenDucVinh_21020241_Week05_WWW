@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.ids.JobSkillId;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.JobSkill;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Response;
+import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.repositories.JobSkillRepository;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.resources.IManagement;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.services.impl.JobSkillService;
 
@@ -22,13 +23,17 @@ public class JobSkillResource implements IManagement<JobSkill, JobSkillId> {
     @Autowired
     private JobSkillService jss;
 
+    @Autowired
+    private JobSkillRepository jsr;
+
     @PostMapping
     @Override
     public ResponseEntity<Response> insert(@RequestBody JobSkill jobSkill) {
         log.info("Call JobSkill insert");
         log.info("Received JobSkill: {}", jobSkill.getId().getJob().getJobName()+ " " + jobSkill.getId().getSkill().getSkillName());
         try{
-            JobSkill output = jss.add(jobSkill);
+//            JobSkill output = jss.add(jobSkill);
+            JobSkill output = jsr.save(jobSkill);
             log.info("Insert JobSkill success");
             return ResponseEntity.ok(new Response(
                     HttpStatus.OK.value(),

@@ -38,7 +38,7 @@
                     <h1>Login Account</h1>
                 </div>
                 <div class="card-body">
-                    <form id="loginForm" method="post">
+                    <form id="loginForm" method="post" th:action="@{/auth-fe/login}">
                         <!-- Login Mode Selection -->
                         <div class="mb-3">
                             <label class="form-label">Select Login Type:</label>
@@ -78,6 +78,11 @@
                         <!-- Submit Button -->
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary w-100">Login Account</button>
+                        </div>
+
+                        <!-- Error message -->
+                        <div th:if="${errorMessage}" class="alert alert-danger mt-3" role="alert">
+                            <span th:text="${errorMessage}"></span>
                         </div>
                     </form>
                 </div>

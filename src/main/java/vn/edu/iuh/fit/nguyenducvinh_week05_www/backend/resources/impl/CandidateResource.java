@@ -72,9 +72,28 @@ public class CandidateResource implements IManagement<Candidate, Long> {
 
     @PutMapping("/{id}")
     @Override
-    public ResponseEntity<Response> update(@PathVariable("id") Long aLong,@RequestBody Candidate candidate) {
-        return null;
+    public ResponseEntity<Response> update(@PathVariable("id") Long id, @RequestBody Candidate candidate) {
+        log.info("Call candidate update with id: {}", id);
+        try {
+            candidate.setId(id); // Đảm bảo đối tượng Candidate chứa ID từ URL
+            Candidate updatedCandidate = cs.update(candidate); // Gọi service cập nhật
+            log.info("Update candidate success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update candidate success",
+                    updatedCandidate
+            ));
+        } catch (Exception e) {
+            log.error("Update candidate fail");
+            log.error("Error: ", e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Update candidate fail",
+                    null
+            ));
+        }
     }
+
 
     @DeleteMapping("/{id}")
     @Override

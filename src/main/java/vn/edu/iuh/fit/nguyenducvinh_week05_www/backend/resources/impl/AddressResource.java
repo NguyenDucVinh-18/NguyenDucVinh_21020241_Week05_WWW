@@ -71,13 +71,61 @@ public class AddressResource implements IManagement<Address, Long> {
     @PutMapping("/{id}")
     @Override
     public ResponseEntity<Response> update(@PathVariable("id") Long aLong,@RequestBody Address address) {
-        return null;
+        log.info("Call address update");
+        try{
+            Address output = as.update(address);
+            log.info("Update address success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update address success",
+                    output
+            ));
+        } catch (EntityIdNotFoundException e) {
+            log.warn("Not found address by id " + aLong);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.NOT_FOUND.value(),
+                    "Not found address by id " + aLong,
+                    null
+            ));
+        } catch (Throwable e) {
+            log.error("Update address fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Update address fail",
+                    null
+            ));
+        }
     }
 
     @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<Response> delete(@PathVariable("id") Long aLong) {
-        return null;
+        log.info("Call address delete");
+        try{
+            as.delete(aLong);
+            log.info("Delete address success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Delete address success",
+                    null
+            ));
+        } catch (EntityIdNotFoundException e) {
+            log.warn("Not found address by id " + aLong);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.NOT_FOUND.value(),
+                    "Not found address by id " + aLong,
+                    null
+            ));
+        } catch (Throwable e) {
+            log.error("Delete address fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Delete address fail",
+                    null
+            ));
+        }
     }
 
     @GetMapping("/{id}")

@@ -71,13 +71,47 @@ public class JobResource implements IManagement<Job, Long> {
     @PutMapping("/{id}")
     @Override
     public ResponseEntity<Response> update(@PathVariable("id") Long aLong,@RequestBody Job job) {
-        return null;
+        log.info("Call job update");
+        try{
+            Job output = js.update(job);
+            log.info("Update job success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update job success",
+                    output
+            ));
+        } catch (Exception e) {
+            log.error("Update job fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update job fail",
+                    null
+            ));
+        }
     }
 
     @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<Response> delete(@PathVariable("id") Long aLong) {
-        return null;
+        log.info("Call job delete");
+        try{
+            js.delete(aLong);
+            log.info("Delete job success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Delete job success",
+                    null
+            ));
+        } catch (Exception e) {
+            log.error("Delete job fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Delete job fail",
+                    null
+            ));
+        }
     }
 
     @GetMapping("/{id}")

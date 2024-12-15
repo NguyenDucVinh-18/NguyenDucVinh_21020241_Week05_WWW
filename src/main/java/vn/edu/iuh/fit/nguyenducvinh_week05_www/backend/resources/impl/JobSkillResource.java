@@ -55,30 +55,119 @@ public class JobSkillResource implements IManagement<JobSkill, JobSkillId> {
     @PostMapping("/list")
     @Override
     public ResponseEntity<Response> insertAll(@RequestBody List<JobSkill> list) {
-        return null;
+        log.info("Call list JobSkill insert");
+        try{
+            List<JobSkill> output = jsr.saveAll(list);
+            log.info("Insert list JobSkill success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Insert list JobSkill success",
+                    output
+            ));
+        } catch (Exception e) {
+            log.error("Insert list JobSkill fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Insert list JobSkill fail",
+                    null
+            ));
+        }
+
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @Override
-    public ResponseEntity<Response> update(JobSkillId jobSkillId, JobSkill jobSkill) {
-        return null;
+    public ResponseEntity<Response> update(@PathVariable("id") JobSkillId jobSkillId,@RequestBody JobSkill jobSkill) {
+        log.info("Call JobSkill update");
+        try{
+            JobSkill output = jsr.save(jobSkill);
+            log.info("Update JobSkill success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update JobSkill success",
+                    output
+            ));
+        } catch (Exception e) {
+            log.error("Update JobSkill fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update JobSkill fail",
+                    null
+            ));
+        }
+
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @Override
-    public ResponseEntity<Response> delete(JobSkillId jobSkillId) {
-        return null;
+    public ResponseEntity<Response> delete(@PathVariable("id") JobSkillId jobSkillId) {
+        log.info("Call JobSkill delete");
+        try{
+            jsr.deleteById(jobSkillId);
+            log.info("Delete JobSkill success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Delete JobSkill success",
+                    null
+            ));
+        } catch (Exception e) {
+            log.error("Delete JobSkill fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Delete JobSkill fail",
+                    null
+            ));
+        }
+
     }
 
+    @GetMapping("/{id}")
     @Override
-    public ResponseEntity<Response> findById(JobSkillId jobSkillId) {
-        return null;
+    public ResponseEntity<Response> findById(@PathVariable("id") JobSkillId jobSkillId) {
+        log.info("Call JobSkill find by id");
+        try{
+            JobSkill output = jsr.findById(jobSkillId).get();
+            log.info("Find JobSkill by id success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Find JobSkill by id success",
+                    output
+            ));
+        } catch (Exception e) {
+            log.error("Find JobSkill by id fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Find JobSkill by id fail",
+                    null
+            ));
+        }
     }
 
     @GetMapping
     @Override
     public ResponseEntity<Response> findAll() {
-        return null;
+        log.info("Call JobSkill find all");
+        try{
+            List<JobSkill> output = jsr.findAll();
+            log.info("Find all JobSkill success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Find all JobSkill success",
+                    output
+            ));
+        } catch (Exception e) {
+            log.error("Find all JobSkill fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Find all JobSkill fail",
+                    null
+            ));
+        }
     }
 
 

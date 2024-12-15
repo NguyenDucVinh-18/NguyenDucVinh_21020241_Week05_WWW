@@ -71,13 +71,54 @@ public class SkillResource implements IManagement<Skill, Long> {
     @PutMapping("/{id}")
     @Override
     public ResponseEntity<Response> update(@PathVariable("id") Long aLong,@RequestBody Skill skill) {
-        return null;
+        log.info("Call skill update");
+        try{
+            Skill output = ss.update(skill);
+            log.info("Update skill success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update skill success",
+                    output
+            ));
+        } catch (Exception e) {
+            log.error("Update skill fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update skill fail",
+                    null
+            ));
+        }
     }
 
     @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<Response> delete(@PathVariable("id") Long aLong) {
-        return null;
+        log.info("Call skill delete");
+        try{
+            ss.delete(aLong);
+            log.info("Delete skill success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Delete skill success",
+                    null
+            ));
+        } catch (EntityIdNotFoundException e) {
+            log.warn("Not found skill by id " + aLong);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.NOT_FOUND.value(),
+                    "Not found skill by id " + aLong,
+                    null
+            ));
+        } catch (Throwable e) {
+            log.warn("Delete skill by id " + aLong + " fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Delete skill by id " + aLong + " fail",
+                    null
+            ));
+        }
     }
 
     @GetMapping("/{id}")

@@ -98,7 +98,31 @@ public class CandidateResource implements IManagement<Candidate, Long> {
     @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<Response> delete(@PathVariable("id") Long aLong) {
-        return null;
+        log.info("Call candidate delete with id: {}", aLong);
+        try {
+            cs.delete(aLong);
+            log.info("Delete candidate success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Delete candidate success",
+                    null
+            ));
+        } catch (EntityIdNotFoundException e) {
+            log.warn("Not found candidate by id " + aLong);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.NOT_FOUND.value(),
+                    "Not found candidate by id " + aLong,
+                    null
+            ));
+        } catch (Throwable e) {
+            log.error("Delete candidate fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Delete candidate fail",
+                    null
+            ));
+        }
     }
 
     @GetMapping("/{id}")

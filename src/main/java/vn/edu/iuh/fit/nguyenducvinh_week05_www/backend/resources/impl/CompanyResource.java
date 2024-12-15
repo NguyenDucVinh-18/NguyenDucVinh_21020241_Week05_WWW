@@ -73,13 +73,47 @@ public class CompanyResource implements IManagement<Company, Long> {
     @PutMapping("/{id}")
     @Override
     public ResponseEntity<Response> update(@PathVariable("id") Long aLong,@RequestBody Company company) {
-        return null;
+        log.info("Call company update");
+        try{
+            Company output = cs.update(company);
+            log.info("Update company success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update company success",
+                    output
+            ));
+        } catch (Exception e) {
+            log.error("Update company fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update company fail",
+                    null
+            ));
+        }
     }
 
     @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<Response> delete(@PathVariable("id") Long aLong) {
-        return null;
+        log.info("Call company delete");
+        try{
+            cs.delete(aLong);
+            log.info("Delete company success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Delete company success",
+                    null
+            ));
+        } catch (Exception e) {
+            log.error("Delete company fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Delete company fail",
+                    null
+            ));
+        }
     }
 
     @GetMapping("/{id}")

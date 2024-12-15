@@ -5,17 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.ids.CandidateSkillId;
+import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Candidate;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.CandidateSkill;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.models.Response;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.resources.IManagement;
 import vn.edu.iuh.fit.nguyenducvinh_week05_www.backend.services.impl.CandidateSkillService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/candidate-skill")
@@ -26,8 +25,9 @@ public class CandidateSkillResource implements IManagement<CandidateSkill, Candi
     private CandidateSkillService css;
 
 
+    @PostMapping
     @Override
-    public ResponseEntity<Response> insert(CandidateSkill candidateSkill) {
+    public ResponseEntity<Response> insert(@RequestBody CandidateSkill candidateSkill) {
         CandidateSkill savedCandidateSkill = css.add(candidateSkill);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Response(
                 HttpStatus.CREATED.value(),
@@ -36,29 +36,59 @@ public class CandidateSkillResource implements IManagement<CandidateSkill, Candi
         ));
     }
 
+    @PostMapping("/list")
     @Override
-    public ResponseEntity<Response> insertAll(List<CandidateSkill> t) {
-        return null;
+    public ResponseEntity<Response> insertAll(@RequestBody List<CandidateSkill> t) {
+       List<CandidateSkill> savedCandidateSkills = css.addMany(t);
+         return ResponseEntity.status(HttpStatus.CREATED).body(new Response(
+                HttpStatus.CREATED.value(),
+                "CandidateSkills created successfully",
+                savedCandidateSkills
+         ));
     }
 
+    @PutMapping("/{id}")
     @Override
-    public ResponseEntity<Response> update(CandidateSkillId candidateSkillId, CandidateSkill candidateSkill) {
-        return null;
+    public ResponseEntity<Response> update(@PathVariable("id") CandidateSkillId candidateSkillId, @RequestBody CandidateSkill candidateSkill) {
+        CandidateSkill updatedCandidateSkill = css.update(candidateSkill);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response(
+                HttpStatus.OK.value(),
+                "CandidateSkill updated successfully",
+                updatedCandidateSkill
+        ));
     }
 
+    @DeleteMapping("/{id}")
     @Override
-    public ResponseEntity<Response> delete(CandidateSkillId candidateSkillId) {
-        return null;
+    public ResponseEntity<Response> delete(@PathVariable("id") CandidateSkillId candidateSkillId) {
+        css.delete(candidateSkillId);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response(
+                HttpStatus.OK.value(),
+                "CandidateSkill deleted successfully",
+                null
+        ));
     }
 
+    @GetMapping
     @Override
     public ResponseEntity<Response> findById(CandidateSkillId candidateSkillId) {
-        return null;
+        Optional<CandidateSkill> candidateSkill = css.getById(candidateSkillId);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response(
+                HttpStatus.OK.value(),
+                "CandidateSkill found successfully",
+                candidateSkill
+        ));
     }
 
+    @GetMapping("/all")
     @Override
     public ResponseEntity<Response> findAll() {
-        return null;
+        List<CandidateSkill> candidateSkills = css.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(new Response(
+                HttpStatus.OK.value(),
+                "CandidateSkills found successfully",
+                candidateSkills
+        ));
     }
 
     @GetMapping("/skills/{canId}")

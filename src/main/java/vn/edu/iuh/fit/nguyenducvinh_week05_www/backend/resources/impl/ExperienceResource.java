@@ -71,13 +71,54 @@ public class ExperienceResource implements IManagement<Experience, Long> {
     @PutMapping("/{id}")
     @Override
     public ResponseEntity<Response> update(@PathVariable("id") Long aLong, @RequestBody Experience experience) {
-        return null;
+        log.info("Call experience update");
+        try{
+            Experience output = es.update(experience);
+            log.info("Update experience success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update experience success",
+                    output
+            ));
+        } catch (Exception e) {
+            log.error("Update experience fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Update experience fail",
+                    null
+            ));
+        }
     }
 
     @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<Response> delete(@PathVariable("id") Long aLong) {
-        return null;
+        log.info("Call experience delete");
+        try{
+            es.delete(aLong);
+            log.info("Delete experience success");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Delete experience success",
+                    null
+            ));
+        } catch (EntityIdNotFoundException e) {
+            log.warn("Not found experience by id " + aLong);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.NOT_FOUND.value(),
+                    "Not found experience by id " + aLong,
+                    null
+            ));
+        } catch (Throwable e) {
+            log.error("Delete experience fail");
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Delete experience fail",
+                    null
+            ));
+        }
     }
 
     @GetMapping("/{id}")
